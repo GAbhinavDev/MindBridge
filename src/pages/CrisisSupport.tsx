@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, MessageCircle, Shield, Moon, Wind, Heart, ArrowRight } from "lucide-react";
+import { Phone, Shield, Moon, Wind, Heart, AlertTriangle, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const helplines = [
   { name: "iCall", number: "9152987821", desc: "TISS Mumbai — Professional counseling" },
@@ -20,7 +21,6 @@ const BreathingExercise = () => {
     if (!active) return;
     const durations = { inhale: 4, hold: 7, exhale: 8 };
     const nextPhase = { inhale: "hold" as const, hold: "exhale" as const, exhale: "inhale" as const };
-
     setCount(durations[phase]);
     const interval = setInterval(() => {
       setCount((c) => {
@@ -66,24 +66,66 @@ const BreathingExercise = () => {
 
 const CrisisSupport = () => {
   const [activeTab, setActiveTab] = useState<"breathe" | "talk" | "ground">("breathe");
+  const [isLateNight, setIsLateNight] = useState(false);
+  const [groundingChecked, setGroundingChecked] = useState<boolean[]>([false, false, false, false, false]);
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    setIsLateNight(hour >= 0 && hour < 5);
+  }, []);
+
+  const toggleGrounding = (idx: number) => {
+    setGroundingChecked((prev) => prev.map((v, i) => (i === idx ? !v : v)));
+  };
 
   return (
-    <div className="min-h-screen pt-16 bg-gradient-calm">
+    <div className={`min-h-screen pt-16 ${isLateNight ? "bg-background" : "bg-gradient-calm"}`}>
       <div className="max-w-3xl mx-auto px-4 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          {/* Late night banner */}
+          {isLateNight && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 p-4 rounded-2xl bg-gentle/10 border border-gentle/20 flex items-start gap-3"
+            >
+              <Moon className="w-5 h-5 text-gentle mt-0.5" />
+              <div>
+                <p className="font-medium text-sm">It's late — we see you 💜</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  It's okay to be up right now. Take a breath, try the exercises below, or talk to someone.
+                </p>
+              </div>
+            </motion.div>
+          )}
+
           <div className="text-center mb-8">
-            <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4 animate-breathe">
+            <motion.div
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4"
+            >
               <Moon className="w-8 h-8 text-primary" />
-            </div>
+            </motion.div>
             <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">You're safe here</h1>
             <p className="text-muted-foreground">Take a breath. We're here for you, no matter what time it is.</p>
+          </div>
+
+          {/* SOS Button */}
+          <div className="text-center mb-8">
+            <a href="tel:9152987821">
+              <Button size="lg" className="bg-alert hover:bg-alert/90 text-white gap-2 px-8 py-6 text-base rounded-2xl shadow-lg">
+                <AlertTriangle className="w-5 h-5" /> SOS — Talk to Someone Now
+              </Button>
+            </a>
+            <p className="text-xs text-muted-foreground mt-2">One tap connects to iCall helpline</p>
           </div>
 
           {/* Quick Actions */}
           <div className="grid grid-cols-3 gap-3 mb-8">
             {[
               { id: "breathe" as const, icon: Wind, label: "Breathe" },
-              { id: "talk" as const, icon: Phone, label: "Talk to Someone" },
+              { id: "talk" as const, icon: Phone, label: "Helplines" },
               { id: "ground" as const, icon: Heart, label: "Grounding" },
             ].map((tab) => (
               <button
@@ -102,11 +144,7 @@ const CrisisSupport = () => {
           <AnimatePresence mode="wait">
             {activeTab === "breathe" && (
               <motion.div key="breathe" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <Card>
-                  <CardContent className="p-6">
-                    <BreathingExercise />
-                  </CardContent>
-                </Card>
+                <Card><CardContent className="p-6"><BreathingExercise /></CardContent></Card>
               </motion.div>
             )}
 
@@ -119,11 +157,7 @@ const CrisisSupport = () => {
                     </h3>
                     <div className="space-y-3">
                       {helplines.map((h) => (
-                        <a
-                          key={h.number}
-                          href={`tel:${h.number}`}
-                          className="flex items-center gap-4 p-4 rounded-xl bg-muted hover:bg-primary/10 transition-colors"
-                        >
+                        <a key={h.number} href={`tel:${h.number}`} className="flex items-center gap-4 p-4 rounded-xl bg-muted hover:bg-primary/10 transition-colors">
                           <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
                             <Phone className="w-5 h-5 text-primary" />
                           </div>
@@ -131,7 +165,7 @@ const CrisisSupport = () => {
                             <div className="font-medium">{h.name}</div>
                             <div className="text-sm text-muted-foreground">{h.desc}</div>
                           </div>
-                          <div className="font-heading font-bold text-primary">{h.number}</div>
+                          <div className="font-heading font-bold text-primary text-sm">{h.number}</div>
                         </a>
                       ))}
                     </div>
@@ -145,7 +179,7 @@ const CrisisSupport = () => {
                 <Card>
                   <CardContent className="p-6">
                     <h3 className="font-heading text-xl font-semibold mb-4">5-4-3-2-1 Grounding</h3>
-                    <p className="text-muted-foreground mb-6">Use your senses to bring yourself back to the present moment.</p>
+                    <p className="text-muted-foreground mb-6">Use your senses. Tap each one as you complete it.</p>
                     <div className="space-y-4">
                       {[
                         { count: 5, sense: "things you can SEE", emoji: "👀" },
@@ -153,18 +187,38 @@ const CrisisSupport = () => {
                         { count: 3, sense: "things you can HEAR", emoji: "👂" },
                         { count: 2, sense: "things you can SMELL", emoji: "👃" },
                         { count: 1, sense: "thing you can TASTE", emoji: "👅" },
-                      ].map((item) => (
-                        <div key={item.count} className="flex items-center gap-4 p-4 rounded-xl bg-muted/50">
-                          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center font-heading text-xl font-bold text-primary">
-                            {item.count}
+                      ].map((item, idx) => (
+                        <motion.button
+                          key={item.count}
+                          onClick={() => toggleGrounding(idx)}
+                          whileTap={{ scale: 0.98 }}
+                          className={`w-full flex items-center gap-4 p-4 rounded-xl transition-all ${
+                            groundingChecked[idx] ? "bg-safe/10 border border-safe/20" : "bg-muted/50"
+                          }`}
+                        >
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center font-heading text-xl font-bold ${
+                            groundingChecked[idx] ? "bg-safe/20 text-safe" : "bg-primary/10 text-primary"
+                          }`}>
+                            {groundingChecked[idx] ? "✓" : item.count}
                           </div>
-                          <div>
+                          <div className="text-left">
                             <span className="text-2xl mr-2">{item.emoji}</span>
-                            <span className="font-medium">Name {item.count} {item.sense}</span>
+                            <span className={`font-medium ${groundingChecked[idx] ? "line-through text-muted-foreground" : ""}`}>
+                              Name {item.count} {item.sense}
+                            </span>
                           </div>
-                        </div>
+                        </motion.button>
                       ))}
                     </div>
+                    {groundingChecked.every(Boolean) && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-6 text-center p-4 rounded-xl bg-safe/10"
+                      >
+                        <p className="font-medium text-safe">You did it! 💚 You're grounded and present.</p>
+                      </motion.div>
+                    )}
                   </CardContent>
                 </Card>
               </motion.div>

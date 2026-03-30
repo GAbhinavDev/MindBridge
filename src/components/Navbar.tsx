@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Menu, X, BarChart3, BookOpen, Flame, Shield, Compass } from "lucide-react";
+import { Heart, Menu, X, BarChart3, BookOpen, Flame, Shield, Compass, LogIn, LogOut, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
   { path: "/mood", label: "Mood Pulse", icon: Heart },
@@ -14,7 +15,34 @@ const navItems = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+
+  useEffect(() => {
+    const saved = localStorage.getItem("mana-theme");
+    if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      setIsDark(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  const toggleDark = () => {
+    setIsDark(!isDark);
+    if (!isDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("mana-theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("mana-theme", "light");
+    }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
@@ -32,11 +60,7 @@ const Navbar = () => {
               const isActive = location.pathname === item.path;
               return (
                 <Link key={item.path} to={item.path}>
-                  <Button
-                    variant={isActive ? "default" : "ghost"}
-                    size="sm"
-                    className="gap-2"
-                  >
+                  <Button variant={isActive ? "default" : "ghost"} size="sm" className="gap-2">
                     <item.icon className="w-4 h-4" />
                     {item.label}
                   </Button>
@@ -49,16 +73,30 @@ const Navbar = () => {
                 Crisis Help
               </Button>
             </Link>
+            <Button variant="ghost" size="icon" onClick={toggleDark} className="ml-1">
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </Button>
+            {user ? (
+              <Button variant="ghost" size="sm" onClick={handleSignOut} className="ml-1 gap-2">
+                <LogOut className="w-4 h-4" /> Sign Out
+              </Button>
+            ) : (
+              <Link to="/auth">
+                <Button variant="ghost" size="sm" className="ml-1 gap-2">
+                  <LogIn className="w-4 h-4" /> Sign In
+                </Button>
+              </Link>
+            )}
           </div>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X /> : <Menu />}
-          </Button>
+          <div className="flex items-center gap-2 md:hidden">
+            <Button variant="ghost" size="icon" onClick={toggleDark}>
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)}>
+              {isOpen ? <X /> : <Menu />}
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -82,14 +120,19 @@ const Navbar = () => {
                   {item.label}
                 </Link>
               ))}
-              <Link
-                to="/crisis"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-lg bg-alert/10 text-alert"
-              >
+              <Link to="/crisis" onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-lg bg-alert/10 text-alert">
                 <Shield className="w-4 h-4" />
                 Crisis Help
               </Link>
+              {user ? (
+                <button onClick={() => { handleSignOut(); setIsOpen(false); }} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted text-foreground w-full">
+                  <LogOut className="w-4 h-4" /> Sign Out
+                </button>
+              ) : (
+                <Link to="/auth" onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted text-foreground">
+                  <LogIn className="w-4 h-4" /> Sign In
+                </Link>
+              )}
             </div>
           </motion.div>
         )}
