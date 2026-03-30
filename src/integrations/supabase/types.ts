@@ -14,16 +14,318 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      badges_earned: {
+        Row: {
+          badge_key: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          badge_key: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          badge_key?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      mood_checkins: {
+        Row: {
+          created_at: string
+          id: string
+          journal_text: string | null
+          locality: string | null
+          mood_value: number
+          stressors: string[] | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          journal_text?: string | null
+          locality?: string | null
+          mood_value: number
+          stressors?: string[] | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          journal_text?: string | null
+          locality?: string | null
+          mood_value?: number
+          stressors?: string[] | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_emoji: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          locality: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_emoji?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+          locality?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_emoji?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          locality?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      quests: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          quest_type: string
+          target_count: number
+          title: string
+          xp_reward: number
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          quest_type?: string
+          target_count?: number
+          title: string
+          xp_reward?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          quest_type?: string
+          target_count?: number
+          title?: string
+          xp_reward?: number
+        }
+        Relationships: []
+      }
+      stories: {
+        Row: {
+          anonymous_avatar: string
+          anonymous_name: string
+          content: string
+          created_at: string
+          expires_at: string
+          id: string
+          is_voice: boolean | null
+          tags: string[] | null
+          user_id: string
+          voice_url: string | null
+        }
+        Insert: {
+          anonymous_avatar?: string
+          anonymous_name: string
+          content: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          is_voice?: boolean | null
+          tags?: string[] | null
+          user_id: string
+          voice_url?: string | null
+        }
+        Update: {
+          anonymous_avatar?: string
+          anonymous_name?: string
+          content?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          is_voice?: boolean | null
+          tags?: string[] | null
+          user_id?: string
+          voice_url?: string | null
+        }
+        Relationships: []
+      }
+      story_reactions: {
+        Row: {
+          created_at: string
+          emoji: string
+          id: string
+          story_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          emoji: string
+          id?: string
+          story_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          emoji?: string
+          id?: string
+          story_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_reactions_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      story_replies: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          story_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          story_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          story_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_replies_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      streaks: {
+        Row: {
+          current_streak: number
+          id: string
+          last_checkin_date: string | null
+          level: number
+          longest_streak: number
+          total_checkins: number
+          user_id: string
+          xp_points: number
+        }
+        Insert: {
+          current_streak?: number
+          id?: string
+          last_checkin_date?: string | null
+          level?: number
+          longest_streak?: number
+          total_checkins?: number
+          user_id: string
+          xp_points?: number
+        }
+        Update: {
+          current_streak?: number
+          id?: string
+          last_checkin_date?: string | null
+          level?: number
+          longest_streak?: number
+          total_checkins?: number
+          user_id?: string
+          xp_points?: number
+        }
+        Relationships: []
+      }
+      user_quests: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          progress: number
+          quest_id: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          progress?: number
+          quest_id: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          progress?: number
+          quest_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_quests_quest_id_fkey"
+            columns: ["quest_id"]
+            isOneToOne: false
+            referencedRelation: "quests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "user" | "ngo_admin" | "peer_leader"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +452,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["user", "ngo_admin", "peer_leader"],
+    },
   },
 } as const
