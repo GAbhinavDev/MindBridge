@@ -20,7 +20,7 @@ const stats = [
   { value: "1 in 7", label: "adolescents face mental health conditions globally" },
   { value: "70%", label: "of struggling teens never seek help due to stigma" },
   { value: "<1%", label: "of health budgets in India go to mental health" },
-  { value: "30 sec", label: "is all Mana needs for a wellbeing check-in" },
+  { value: "30 sec", label: "is all MindBridge needs for a wellbeing check-in" },
 ];
 
 const Index = () => {
