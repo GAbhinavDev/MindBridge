@@ -53,7 +53,7 @@ const Index = () => {
             </div>
             <h1 className="font-heading text-5xl md:text-7xl font-bold leading-tight mb-6">
               You're not alone.<br />
-              <span className="text-gradient-calm">Mana is here.</span>
+              <span className="text-gradient-calm">MindBridge is here.</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl leading-relaxed">
               A safe, anonymous space where teens check in, share stories, and find support — 
