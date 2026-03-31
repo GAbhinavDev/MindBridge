@@ -175,7 +175,7 @@ const Index = () => {
               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
                 <Heart className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="font-heading font-bold text-lg">Mana</span>
+              <span className="font-heading font-bold text-lg">MindBridge</span>
               <span className="text-muted-foreground text-sm ml-2">Youth Mental Health Support</span>
             </div>
             <div className="flex items-center gap-6 text-sm text-muted-foreground">

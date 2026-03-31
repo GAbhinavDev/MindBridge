@@ -18,7 +18,7 @@ const Navbar = () => {
   const [isDark, setIsDark] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user, signOut, isNGOAdmin } = useAuth();
 
   useEffect(() => {
     const saved = localStorage.getItem("mana-theme");

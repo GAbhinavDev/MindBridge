@@ -33,7 +33,7 @@ const App = () => (
             <Route path="/ngo-login" element={<NGOLogin />} />
             <Route path="/mood" element={<MoodCheckIn />} />
             <Route path="/stories" element={<StoryCircles />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<NGODashboard />} />
             <Route path="/crisis" element={<CrisisSupport />} />
             <Route path="/streaks" element={<ResilienceStreaks />} />
             <Route path="/resources" element={<Resources />} />
