@@ -7,7 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import MoodCheckIn from "./pages/MoodCheckIn";
 import StoryCircles from "./pages/StoryCircles";
-import Dashboard from "./pages/Dashboard";
+import NGODashboard from "./pages/NGODashboard";
 import CrisisSupport from "./pages/CrisisSupport";
 import ResilienceStreaks from "./pages/ResilienceStreaks";
 import Resources from "./pages/Resources";
@@ -33,7 +33,7 @@ const App = () => (
             <Route path="/ngo-login" element={<NGOLogin />} />
             <Route path="/mood" element={<MoodCheckIn />} />
             <Route path="/stories" element={<StoryCircles />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<NGODashboard />} />
             <Route path="/crisis" element={<CrisisSupport />} />
             <Route path="/streaks" element={<ResilienceStreaks />} />
             <Route path="/resources" element={<Resources />} />

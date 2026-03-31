@@ -20,7 +20,7 @@ const stats = [
   { value: "1 in 7", label: "adolescents face mental health conditions globally" },
   { value: "70%", label: "of struggling teens never seek help due to stigma" },
   { value: "<1%", label: "of health budgets in India go to mental health" },
-  { value: "30 sec", label: "is all Mana needs for a wellbeing check-in" },
+  { value: "30 sec", label: "is all MindBridge needs for a wellbeing check-in" },
 ];
 
 const Index = () => {
@@ -53,7 +53,7 @@ const Index = () => {
             </div>
             <h1 className="font-heading text-5xl md:text-7xl font-bold leading-tight mb-6">
               You're not alone.<br />
-              <span className="text-gradient-calm">Mana is here.</span>
+              <span className="text-gradient-calm">MindBridge is here.</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl leading-relaxed">
               A safe, anonymous space where teens check in, share stories, and find support — 
@@ -157,7 +157,7 @@ const Index = () => {
             <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
               "We don't replace therapists.<br />We make sure teens never need to reach rock bottom before they find one."
             </h2>
-            <p className="text-muted-foreground text-lg mb-8">Mana bridges the gap between struggling in silence and finding real help.</p>
+            <p className="text-muted-foreground text-lg mb-8">MindBridge bridges the gap between struggling in silence and finding real help.</p>
             <Link to="/mood">
               <Button size="lg" className="gap-2 text-base px-8 py-6 rounded-xl">
                 Start Your Check-In <ArrowRight className="w-5 h-5" />
@@ -175,7 +175,7 @@ const Index = () => {
               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
                 <Heart className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="font-heading font-bold text-lg">Mana</span>
+              <span className="font-heading font-bold text-lg">MindBridge</span>
               <span className="text-muted-foreground text-sm ml-2">Youth Mental Health Support</span>
             </div>
             <div className="flex items-center gap-6 text-sm text-muted-foreground">

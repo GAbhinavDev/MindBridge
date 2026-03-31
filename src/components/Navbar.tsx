@@ -18,7 +18,7 @@ const Navbar = () => {
   const [isDark, setIsDark] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user, signOut, isNGOAdmin } = useAuth();
 
   useEffect(() => {
     const saved = localStorage.getItem("mana-theme");
@@ -52,7 +52,7 @@ const Navbar = () => {
             <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
               <Heart className="w-4 h-4 text-primary-foreground" />
             </div>
-            <span className="font-heading font-bold text-xl text-foreground">Mana</span>
+            <span className="font-heading font-bold text-xl text-foreground">MindBridge</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
