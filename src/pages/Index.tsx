@@ -157,7 +157,7 @@ const Index = () => {
             <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
               "We don't replace therapists.<br />We make sure teens never need to reach rock bottom before they find one."
             </h2>
-            <p className="text-muted-foreground text-lg mb-8">Mana bridges the gap between struggling in silence and finding real help.</p>
+            <p className="text-muted-foreground text-lg mb-8">MindBridge bridges the gap between struggling in silence and finding real help.</p>
             <Link to="/mood">
               <Button size="lg" className="gap-2 text-base px-8 py-6 rounded-xl">
                 Start Your Check-In <ArrowRight className="w-5 h-5" />
