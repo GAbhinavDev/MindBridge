@@ -7,7 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import MoodCheckIn from "./pages/MoodCheckIn";
 import StoryCircles from "./pages/StoryCircles";
-import Dashboard from "./pages/Dashboard";
+import NGODashboard from "./pages/NGODashboard";
 import CrisisSupport from "./pages/CrisisSupport";
 import ResilienceStreaks from "./pages/ResilienceStreaks";
 import Resources from "./pages/Resources";
